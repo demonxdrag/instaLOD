@@ -25,7 +25,6 @@ const FileUpload = ({ setUserFiles }) => {
 
     return (
         <div className="FileUpload">
-            <p>There are no uploaded files in your profile yet.</p>
             <div className="upload-container">
                 <img src="/icons/upload.svg" alt="upload" />
                 <div className="upload-title">{!selectedFile ? 'Select a file to upload' : 'Upload file'}</div>

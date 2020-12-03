@@ -37,6 +37,33 @@
 	}
 
 	.file-controls {
-		justify-self: end;
+		margin-left: auto;
+
+		div {
+			border-left: 1px solid $light;
+			padding: 5px 10px;
+			font-size: small;
+			animation-duration: 1s;
+			background-color: transparent;
+			cursor: pointer;
+
+			&:hover {
+				background-color: $light;
+			}
+		}
+
+		.file-save {
+			border-bottom: 1px solid $light;
+		}
+
+		.file-delete {
+			border-bottom: 1px solid $light;
+		}
+
+		.file-download {
+			border-bottom: 1px solid $light;
+		}
+
+		.file-download-compressed {}
 	}
 }

@@ -3,6 +3,12 @@ import { uploadFile } from '../../data';
 import './FileCard.scss';
 
 const FileCard = ({ file, setUserFiles }) => {
+    const [editMode, setEditMode] = useState(false);
+
+    const editHandler = () => {
+        setEditMode(!editMode);
+    }
+
     return (
         <div className="FileCard">
             <div className="file-icon">
@@ -14,7 +20,7 @@ const FileCard = ({ file, setUserFiles }) => {
                 <div className="file-size">Size: {file.size}</div>
             </div>
             <div className="file-controls">
-                <div className="file-save">Save</div>
+                <div className="file-save" onClick={() => editHandler()}>{editMode ? 'Save' : 'Edit'}</div>
                 <div className="file-delete">Delete</div>
                 <div className="file-download">Download</div>
                 <div className="file-download-compressed">ZIP</div>
