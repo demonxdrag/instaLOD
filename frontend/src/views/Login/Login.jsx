@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login, signup, global_username } from '../../data.ts';
+import { login, signup } from '../../data.ts';
 import { withRouter } from 'react-router-dom';
 import './Login.scss';
 

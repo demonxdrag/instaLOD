@@ -80,6 +80,9 @@ router.delete('/', async function (req, res) {
             // This section goes last so we can still delete even if there is a failure
             try {
                 fs.unlinkSync(`${upload_dir}${fileToDelete.url}`);
+                if (fileToDelete.zip) {
+                    fs.unlinkSync(`${upload_dir}${fileToDelete.url}.zip`);
+                }
             } catch (err) {
                 console.error(err.message);
             }

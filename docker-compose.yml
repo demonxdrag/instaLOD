@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "4200:4200"
+    depends_on:
+      - database
+    container_name: backend
+    volumes:
+       - ./backend:/usr/src/app/backend
+       - /usr/src/app/backend/node_modules
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    container_name: frontend
+    stdin_open: true
+    volumes:
+       - ./frontend:/usr/src/app/frontend
+       - /usr/src/app/frontend/node_modules
+  database:
+    build:
+      context: ./backend/bin/database
+    image: 'postgres'
+    env_file:
+      - ./backend/bin/database/database.env
+    ports: 
+      - 5432:5432
+    volumes:
+      - ./backend/bin/database/init.sql:/docker-entrypoint-initdb.d/init.sql

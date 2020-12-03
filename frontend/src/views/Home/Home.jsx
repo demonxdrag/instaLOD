@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileCard from '../../components/FileCard/FileCard';
 import FileUpload from '../../components/FileUpload/FileUpload'
 import { getUserFiles } from '../../data';
