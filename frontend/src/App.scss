@@ -22,3 +22,30 @@
 .btn-secondary {
 	background-color: lightblue;
 }
+
+.btn-error {
+	background-color: lightcoral;
+}
+
+.btn-disabled {
+	background-color: gray;
+}
+
+input {
+	margin: 5px;
+	padding: 2px;
+	color: #313131;
+	border-radius: 5px;
+	border: 1px solid #CACACA;
+	height: 25px;
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+	
+	&:disabled {
+		margin: 0;
+		padding: 0;
+		background-color: white;
+		border: 0;
+	}
+}

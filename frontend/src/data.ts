@@ -3,9 +3,6 @@ const querystring = require('querystring');
 // Constants
 export const api_url = 'http://localhost:4200/'; // .env
 
-// Globals
-export var global_username = '';
-
 // Helpers
 /**
  * Helper for fetching a GET HTTP request
