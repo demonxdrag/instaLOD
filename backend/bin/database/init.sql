@@ -12,6 +12,7 @@ CREATE TABLE files (
     filetype VARCHAR (16) NOT NULL,
     size BIGINT NOT NULL,
     created_on TIMESTAMP NOT NULL,
+    last_edit TIMESTAMP,
     PRIMARY KEY (file_id),
     FOREIGN KEY (owner) REFERENCES users(username)
 );

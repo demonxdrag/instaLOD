@@ -3,9 +3,6 @@ const querystring = require('querystring');
 // Constants
 export const api_url = 'http://localhost:4200/'; // .env
 
-// Globals
-export var global_username = '';
-
 // Helpers
 /**
  * Helper for fetching a GET HTTP request
@@ -21,7 +18,6 @@ async function get(url: String, params: Object = {}) {
         cache: 'default',
         headers: { 'Content-Type': 'application/json' }
     });
-    console.log(response.status);
     if (response.status === 200) {
         return response.json();
     } else {
@@ -43,14 +39,57 @@ async function post(url: String, body: Object, params: Object = {}) {
         mode: 'cors',
         cache: 'default',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body) // body data type must match "Content-Type" header
+        body: JSON.stringify(body)
     });
-    console.log(response.status);
     if (response.status === 200) {
         return response.json();
     } else {
         console.error(response);
     }
+}
+
+/**
+ * Helper for fetching a PUT HTTP request
+ * @param url endpoint without initial '/'
+ * @param body object containing the body
+ * @param params object containing parameters to be sent, they automatically get converted to string
+ */
+async function put(url: String, body: Object, params: Object = {}) {
+    const queryParams = params ? `?${querystring.stringify(params)}` : '';
+    const queryUrl = api_url + url + queryParams;
+    const response = await fetch(queryUrl, {
+        method: 'PUT',
+        mode: 'cors',
+        cache: 'default',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+    if (response.status === 200) {
+        return response.json();
+    } else {
+        console.error(response);
+    }
+}
+
+/**
+* Helper for fetching a DELETE HTTP request
+* @param url endpoint without initial '/'
+* @param params object containing parameters to be sent, they automatically get converted to string
+*/
+async function del(url: String, params: Object = {}) {
+   const queryParams = params ? `?${querystring.stringify(params)}` : '';
+   const queryUrl = api_url + url + queryParams;
+   const response = await fetch(queryUrl, {
+       method: 'DELETE',
+       mode: 'cors',
+       cache: 'default',
+       headers: { 'Content-Type': 'application/json' }
+   });
+   if (response.status === 200) {
+       return response.json();
+   } else {
+       console.error(response);
+   }
 }
 
 /**
@@ -66,15 +105,16 @@ async function upload(url: String, file: File, params: Object = {}) {
         method: 'POST',
         mode: 'cors',
         cache: 'default',
-        body: file // body data type must match "Content-Type" header
+        body: file
     });
-    console.log(response.status);
     if (response.status === 200) {
         return response.json();
     } else {
         console.error(response);
     }
 }
+
+// USER FUNCTIONS //
 
 /**
  * Login function
@@ -92,13 +132,15 @@ export function signup(credentials: Object) {
     return post('users/signup', credentials)
 }
 
+// FILE FUNCTIONS //
+
 /**
  * Upload a file function
  * @param file single file
  */
 export function uploadFile(file: File) {
     let username = localStorage.getItem('username')
-    return upload('files/upload', file, {username});
+    return upload('files/upload', file, { username });
 }
 
 /**
@@ -107,5 +149,22 @@ export function uploadFile(file: File) {
  */
 export function getUserFiles(user: String = '') {
     let username = user ? user : localStorage.getItem('username')
-    return get('files', {username});
+    return get('files', { username });
+}
+
+/**
+ * Function that updates a file's metadata
+ * @param metadata File metadata to change 
+ * @param file_id File ID
+ */
+export function updateFile(metadata: Object, file_id: Number) {
+    return put('files', metadata, {file_id});
+}
+
+/**
+ * Function that deletes a file
+ * @param file_id File ID
+ */
+export function deleteFile(file_id: Number) {
+    return del('files', {file_id});
 }

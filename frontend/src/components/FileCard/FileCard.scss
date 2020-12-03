@@ -1,6 +1,7 @@
 @import 'public/style/colors';
 
 .FileCard {
+	position: relative;
 	display: flex;
 	align-items: center;
 	margin: 10px 20px;
@@ -11,6 +12,7 @@
 
 	.file-icon {
 		width: 60px;
+		flex-shrink: 0;
 	}
 
 	.file-data {
@@ -18,6 +20,11 @@
 		flex-direction: column;
 		justify-items: start;
 		margin: 0 20px;
+		width: 100%;
+
+		div > input {
+			width: 100%;
+		}
 
 		.file-name {
 			font-size: medium;
@@ -26,17 +33,61 @@
 		}
 
 		.file-type {
+			display: flex;
+			align-items: baseline;
 			color: $light;
 			text-align: left;
 		}
 
 		.file-size {
+			display: flex;
+			align-items: baseline;
 			color: $light;
 			text-align: left;
 		}
 	}
 
 	.file-controls {
-		justify-self: end;
+		margin-left: auto;
+
+		div {
+			padding: 5px 10px;
+			font-size: small;
+			animation-duration: 1s;
+			background-color: transparent;
+			cursor: pointer;
+
+			&:hover {
+				background-color: $light;
+			}
+		}
+
+		.file-save {
+			border-bottom: 1px solid $light;
+		}
+
+		.file-delete {
+			border-bottom: 1px solid $light;
+		}
+
+		.file-download {
+			border-bottom: 1px solid $light;
+		}
+
+		.file-download-compressed {}
+	}
+
+	.delete-prompt {
+		position: absolute;
+		left: 0;
+		top: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(255, 255, 255, 0.8);
+		backdrop-filter: blur(5px);
+		width: 100%;
+		height: 100%;
+		border-radius: 5px;
 	}
 }
