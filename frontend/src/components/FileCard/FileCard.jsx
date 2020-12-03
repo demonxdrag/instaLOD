@@ -39,7 +39,7 @@ const FileCard = ({ file, setUserFiles }) => {
     const deleteHandler = async () => {
         try {
             await deleteFile(file.file_id);
-            setUserFiles((userFiles) => userFiles.filter((f) => !(f.file_id === file.file_id) ? false : true))
+            setUserFiles((userFiles) => userFiles.filter((f) => (f.file_id === file.file_id) ? false : true))
             setDeleteMode(false);
         } catch (err) {
             console.error(err.message);
