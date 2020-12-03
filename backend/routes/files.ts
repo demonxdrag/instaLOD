@@ -19,7 +19,7 @@ router.post('/upload', async function (req, res) {
         await new Promise((resolve, reject) => {
             resolve(file.mv(`${upload_dir}${url}.${filetype}`, (err) => { console.error(err); reject(err) }));
         })
-        let query = await db.query('INSERT INTO files(url, name, owner, filetype, size, created_on) VALUES ($1, $2, $3, $4, $5) RETURNING url', [url, name, owner, filetype, size, created_on]);
+        let query = await db.query('INSERT INTO files(url, name, owner, filetype, size, created_on) VALUES ($1, $2, $3, $4, $5, $6) RETURNING url', [url, name, owner, filetype, size, created_on]);
         res.status(200).json(query.rows);
     } catch (err) {
         console.error(err.message);

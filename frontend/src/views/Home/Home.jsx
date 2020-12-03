@@ -15,8 +15,8 @@ const Home = () => {
         <div className="Home">
             {/* User card? */}
             {/* List of uploads */}
-            {userFiles.map((file) => (
-                <FileCard />
+            {userFiles.map((file, k) => (
+                <FileCard key={k} file={file} setUserFiles={setUserFiles}/>
             ))}
             <FileUpload setUserFiles={setUserFiles} />
         </div>
