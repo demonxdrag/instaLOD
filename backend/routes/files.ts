@@ -6,6 +6,9 @@ var path = require('path');
 
 const upload_dir = path.normalize('./data/uploads/');
 
+/**
+ * @description Gets all files for a user
+ */
 router.get('/', async function (req, res) {
     let { username } = req.query;
     try {
@@ -17,6 +20,9 @@ router.get('/', async function (req, res) {
     }
 });
 
+/**
+ * @description Uploads a file
+ */
 router.post('/upload', async function (req, res) {
     let { username } = req.query;
     let file = Object.values(Object.values(req.files)[0])[0];
@@ -38,12 +44,42 @@ router.post('/upload', async function (req, res) {
     }
 });
 
+/**
+ * @description Updates a given file's metadata
+ */
 router.put('/', async function (req, res) {
-    let { file_id } = req.query;
-    let { name, filetype, size } = req.body;
-    let last_edit = new Date();
-    let query = await db.query('UPDATE files SET name = $2, filetype = $3 , size = $4, last_edit = $5 WHERE file_id = $1', [file_id, name, filetype, size, last_edit]);
-    res.status(200).json(query.rows);
+    try {
+        let { file_id } = req.query;
+        if (file_id) {
+            let { name, filetype, size } = req.body;
+            let last_edit = new Date();
+            let query = await db.query('UPDATE files SET name = $2, filetype = $3 , size = $4, last_edit = $5 WHERE file_id = $1', [file_id, name, filetype, size, last_edit]);
+            res.status(200).json(query.rows);
+        } else {
+            throw new Error("Field file_id missing");
+        }
+    } catch (err) {
+        console.error(err.message);
+        return res.status(400).send(err.message);
+    }
+})
+
+/**
+ * @description Deletes a file from the database
+ */
+router.delete('/', async function (req, res) {
+    try {
+        let { file_id } = req.query;
+        if (file_id) {
+            let query = await db.query('DELETE FROM files WHERE file_id = $1', [file_id])
+            res.status(200).json(query.rows);
+        } else {
+            throw new Error("Field file_id missing");
+        }
+    } catch (err) {
+        console.error(err.message);
+        return res.status(400).send(err.message);
+    }
 })
 
 module.exports = router;

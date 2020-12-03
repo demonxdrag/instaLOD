@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { updateFile, uploadFile } from '../../data';
+import { deleteFile, updateFile, uploadFile } from '../../data';
 import './FileCard.scss';
 
 const FileCard = ({ file, setUserFiles }) => {
@@ -24,17 +24,11 @@ const FileCard = ({ file, setUserFiles }) => {
     const editHandler = async () => {
         try {
             if (editMode) {
-                let response = await updateFile({
+                await updateFile({
                     name: fileName,
                     filetype: fileType,
                     size: fileSize
                 }, file.file_id)
-
-                // setFileName(file.name);
-                // setFileType(file.filetype);
-                // setFileSize(file.size);
-
-                console.log(response);
             }
             setEditMode(!editMode);
         } catch (err) {
@@ -42,9 +36,14 @@ const FileCard = ({ file, setUserFiles }) => {
         }
     }
 
-    const deleteHandler = () => {
-        // DELETE
-        setDeleteMode(false);
+    const deleteHandler = async () => {
+        try {
+            await deleteFile(file.file_id);
+            setUserFiles((userFiles) => userFiles.filter((f) => !(f.file_id === file.file_id) ? false : true))
+            setDeleteMode(false);
+        } catch (err) {
+            console.error(err.message);
+        }
     }
 
     return (
