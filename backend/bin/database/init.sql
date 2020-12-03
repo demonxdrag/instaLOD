@@ -6,6 +6,7 @@ CREATE TABLE users (
 );
 CREATE TABLE files (
     file_id serial,
+    name VARCHAR(64),
     url VARCHAR(64),
     owner VARCHAR(50) REFERENCES users (username),
     filetype VARCHAR (16) NOT NULL,

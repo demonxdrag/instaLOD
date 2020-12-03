@@ -100,3 +100,12 @@ export function uploadFile(file: File) {
     let username = localStorage.getItem('username')
     return upload('files/upload', file, {username});
 }
+
+/**
+ * Get all the files for the current user or for a given user
+ * @param user username for the user to be sent for the query
+ */
+export function getUserFiles(user: String = '') {
+    let username = user ? user : localStorage.getItem('username')
+    return get('files', {username});
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { uploadFile } from '../../data';
 import './FileUpload.scss';
 
-const FileUpload = () => {
+const FileUpload = ({ setUserFiles }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
@@ -16,7 +16,8 @@ const FileUpload = () => {
         try {
             let fileToUpload = new FormData();
             fileToUpload.append(selectedFile.name, selectedFile)
-            await uploadFile(fileToUpload);
+            let response = await uploadFile(fileToUpload);
+            setUserFiles((userFiles) => [...userFiles, response])
         } catch (err) {
             setErrorMsg(err.message);
         }
@@ -30,6 +31,7 @@ const FileUpload = () => {
                 <div className="upload-title">{!selectedFile ? 'Select a file to upload' : 'Upload file'}</div>
                 <input type="file" onChange={e => setSelectedFile(e.target.files[0])} />
                 <button className="btn btn-primary" onClick={() => uploadHandler()}>Upload File</button>
+                <div className="error-message">{errorMsg}</div>
             </div>
         </div>
     )
