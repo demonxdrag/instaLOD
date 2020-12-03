@@ -23,7 +23,7 @@ router.get('/login', async function (req, res, next) {
     let print = await db.query('SELECT password FROM users WHERE username = $1::text', [username]);
     console.log(print.rows)
     if (hash.verify(password, print.rows[0].password)) {
-      res.status(200).send('Ok');
+      res.status(200).json({ message: 'Ok' });
     } else {
       throw new Error("Username or password not found");
     }

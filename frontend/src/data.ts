@@ -18,7 +18,12 @@ async function get(url: String, params: Object = {}) {
         cache: 'default',
         headers: { 'Content-Type': 'application/json' }
     });
-    return response.json();
+    console.log(response.status);
+    if (response.status === 200) {
+        return response.json();
+    } else {
+        console.error(response);
+    }
 }
 
 /**
@@ -37,7 +42,12 @@ async function post(url: String, body: Object, params: Object = {}) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body) // body data type must match "Content-Type" header
     });
-    return response.json();
+    console.log(response.status);
+    if (response.status === 200) {
+        return response.json();
+    } else {
+        console.error(response);
+    }
 }
 
 /**
