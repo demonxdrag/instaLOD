@@ -17,7 +17,6 @@ router.post('/signup', async function (req, res) {
 
 router.get('/login', async function (req, res) {
   let { username, password } = req.query
-  console.log({ username, password })
   try {
     let query = await db.query('SELECT password FROM users WHERE username = $1::text', [username]);
     if (hash.verify(password, query.rows[0].password)) {

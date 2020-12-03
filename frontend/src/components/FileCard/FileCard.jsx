@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { deleteFile, updateFile, uploadFile } from '../../data';
+import { api_url, deleteFile, updateFile } from '../../data';
 import './FileCard.scss';
 
 const FileCard = ({ file, setUserFiles }) => {
@@ -14,7 +14,7 @@ const FileCard = ({ file, setUserFiles }) => {
         setFileName(file.name);
         setFileType(file.filetype);
         setFileSize(file.size);
-    }, [])
+    }, [file])
 
     const humanFileSize = (size) => {
         var i = Math.floor(Math.log(size) / Math.log(1024));
@@ -59,8 +59,8 @@ const FileCard = ({ file, setUserFiles }) => {
             <div className="file-controls">
                 <div className="file-save" onClick={() => editHandler()}>{editMode ? 'Save' : 'Edit'}</div>
                 <div className="file-delete" onClick={() => setDeleteMode(true)}>Delete</div>
-                <div className="file-download">Download</div>
-                <div className="file-download-compressed">ZIP</div>
+                <div className="file-download"><a href={`${api_url}uploads/${file.url}`} target="_blank" rel="noreferrer" download={`${file.name}`}>Download</a></div>
+                <div className="file-download-compressed"><a href={`${api_url}uploads/${file.url}.zip`} target="_blank" rel="noreferrer" download={`${file.name}`}>ZIP</a></div>
             </div>
             {deleteMode && <div className="delete-prompt">
                 <p>Are you sure you want to delete this file?</p>

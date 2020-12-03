@@ -10,7 +10,6 @@ const Login = (props) => {
     const loginHandler = async ({ username, password }) => {
         try {
             let success = await login({ username, password });
-            console.log({ success })
             if (success) {
                 localStorage.setItem('jwt', 'This should be a jwt')
                 localStorage.setItem('username', username)
@@ -26,7 +25,6 @@ const Login = (props) => {
     const signupHandler = async ({ username, password }) => {
         try {
             let success = await signup({ username, password });
-            console.log({ success })
             if (success) {
                 localStorage.setItem('jwt', 'This should be a jwt')
                 localStorage.setItem('username', username)

@@ -75,9 +75,14 @@ router.delete('/', async function (req, res) {
         if (file_id) {
             let queryGet = await db.query('SELECT url FROM files WHERE file_id = $1', [file_id]);
             let fileToDelete = queryGet.rows[0];
-            fs.unlinkSync(`${upload_dir}${fileToDelete.url}`);
             let queryDelete = await db.query('DELETE FROM files WHERE file_id = $1', [file_id]);
             res.status(200).json(queryDelete.rows);
+            // This section goes last so we can still delete even if there is a failure
+            try {
+                fs.unlinkSync(`${upload_dir}${fileToDelete.url}`);
+            } catch (err) {
+                console.error(err.message)
+            }
         } else {
             throw new Error("Field file_id missing");
         }

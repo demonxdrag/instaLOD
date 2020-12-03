@@ -11,7 +11,6 @@ const Home = () => {
     useEffect(() => {
         getUserFiles().then((files) => {
             if (files && files.length > 0) {
-                console.log(files);
                 setUserFiles([...files]);
             }
         })

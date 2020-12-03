@@ -6,18 +6,13 @@ const FileUpload = ({ setUserFiles }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    useEffect(() => {
-        if (selectedFile) {
-            console.log(selectedFile);
-        }
-    }, [selectedFile])
-
     const uploadHandler = async () => {
         try {
             let fileToUpload = new FormData();
             fileToUpload.append(selectedFile.name, selectedFile)
             let response = await uploadFile(fileToUpload);
             setUserFiles((userFiles) => [...userFiles, response[0]])
+            setSelectedFile(null);
         } catch (err) {
             setErrorMsg(err.message);
         }
