@@ -5,9 +5,12 @@ CREATE TABLE users (
     created_on TIMESTAMP NOT NULL
 );
 CREATE TABLE files (
-    file_id serial PRIMARY KEY,
-    owner VARCHAR (50) NOT NULL,
+    file_id serial,
+    url VARCHAR(64),
+    owner VARCHAR(50) REFERENCES users (username),
     filetype VARCHAR (16) NOT NULL,
     size BIGINT NOT NULL,
-    created_on TIMESTAMP NOT NULL
+    created_on TIMESTAMP NOT NULL,
+    PRIMARY KEY (file_id),
+    FOREIGN KEY (owner) REFERENCES users(username)
 );
