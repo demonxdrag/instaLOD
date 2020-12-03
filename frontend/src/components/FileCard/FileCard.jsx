@@ -1,21 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { uploadFile } from '../../data';
+import { updateFile, uploadFile } from '../../data';
 import './FileCard.scss';
 
 const FileCard = ({ file, setUserFiles }) => {
     const [editMode, setEditMode] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
 
+    const [fileName, setFileName] = useState('');
+    const [fileType, setFileType] = useState('');
+    const [fileSize, setFileSize] = useState('');
+
+    useEffect(() => {
+        setFileName(file.name);
+        setFileType(file.filetype);
+        setFileSize(file.size);
+    }, [])
+
     const humanFileSize = (size) => {
-        var i = Math.floor( Math.log(size) / Math.log(1024) );
-        return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+        var i = Math.floor(Math.log(size) / Math.log(1024));
+        return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
     };
 
-    const editHandler = () => {
-        if (editMode) {
-            // SAVE
+    const editHandler = async () => {
+        try {
+            if (editMode) {
+                let response = await updateFile({
+                    name: fileName,
+                    filetype: fileType,
+                    size: fileSize
+                }, file.file_id)
+
+                // setFileName(file.name);
+                // setFileType(file.filetype);
+                // setFileSize(file.size);
+
+                console.log(response);
+            }
+            setEditMode(!editMode);
+        } catch (err) {
+            console.error(err.message)
         }
-        setEditMode(!editMode);
     }
 
     const deleteHandler = () => {
@@ -29,9 +53,9 @@ const FileCard = ({ file, setUserFiles }) => {
                 <img src={`/icons/filetype/${file.filetype}.svg`} alt={file.filetype} />
             </div>
             <div className="file-data">
-                <div className="file-name"><input type="text" value={file.name} disabled={!editMode} /></div>
-                <div className="file-type">Type: <input type="text" value={file.filetype} disabled={!editMode} /></div>
-                <div className="file-size">Size: <input type="text" value={editMode ? file.size : humanFileSize(file.size)} disabled={!editMode} /></div>
+                <div className="file-name"><input type="text" onChange={(e) => setFileName(e.target.value)} value={fileName} disabled={!editMode} /></div>
+                <div className="file-type">Type: <input type="text" onChange={(e) => setFileType(e.target.value)} value={fileType} disabled={!editMode} /></div>
+                <div className="file-size">Size: <input type="text" onChange={(e) => setFileSize(e.target.value)} value={editMode ? fileSize : humanFileSize(fileSize)} disabled={!editMode} /></div>
             </div>
             <div className="file-controls">
                 <div className="file-save" onClick={() => editHandler()}>{editMode ? 'Save' : 'Edit'}</div>

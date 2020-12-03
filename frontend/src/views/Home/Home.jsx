@@ -9,7 +9,12 @@ const Home = () => {
     const username = localStorage.getItem('username')
 
     useEffect(() => {
-        getUserFiles().then((files) => { console.log(files); setUserFiles([...files]) })
+        getUserFiles().then((files) => {
+            if (files && files.length > 0) {
+                console.log(files);
+                setUserFiles([...files]);
+            }
+        })
     }, [])
 
     return (

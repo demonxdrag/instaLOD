@@ -17,8 +17,7 @@ const FileUpload = ({ setUserFiles }) => {
             let fileToUpload = new FormData();
             fileToUpload.append(selectedFile.name, selectedFile)
             let response = await uploadFile(fileToUpload);
-            console.log(response)
-            setUserFiles((userFiles) => [...userFiles, response])
+            setUserFiles((userFiles) => [...userFiles, response[0]])
         } catch (err) {
             setErrorMsg(err.message);
         }
