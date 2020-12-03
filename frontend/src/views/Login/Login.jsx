@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { login, signup } from '../../data.ts';
+import { withRouter } from 'react-router-dom';
 import './Login.scss';
 
 const Login = (props) => {
@@ -50,4 +51,4 @@ const Login = (props) => {
     )
 }
 
-export default Login;
+export default withRouter(Login);
