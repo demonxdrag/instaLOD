@@ -19,10 +19,10 @@ router.post('/signup', async function (req, res, next) {
 router.get('/login', async function (req, res, next) {
   let { username, password } = req.body // This is to prevent any other values to be sent
   try {
-    let print = await db.any('SELECT password FROM users WHERE username=$1', [username]);
+    let print = await db.query('SELECT password FROM users WHERE username=$1', [username]);
     console.log(print)
     if (hash.verify(password, print.password)) {
-      res.status(200).send('respond with a resource');
+      res.status(200).send('Ok');
     } else {
       throw new Error("Username or password not found");
     }
