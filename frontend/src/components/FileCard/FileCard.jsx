@@ -14,6 +14,11 @@ const FileCard = ({ file, setUserFiles }) => {
         setFileName(file.name);
         setFileType(file.filetype);
         setFileSize(file.size);
+        return () => {
+            setFileName('');
+            setFileType('');
+            setFileSize('');
+        }
     }, [file])
 
     const humanFileSize = (size) => {

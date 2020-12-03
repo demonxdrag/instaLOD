@@ -25,7 +25,7 @@ router.get('/', async function (req, res) {
 /**
  * @description Uploads a file
  */
-router.post('/upload', async function (req, res) {
+router.post('/', async function (req, res) {
     let { username } = req.query;
     let file = Object.values(Object.values(req.files)[0])[0];
     try {
@@ -81,7 +81,7 @@ router.delete('/', async function (req, res) {
             try {
                 fs.unlinkSync(`${upload_dir}${fileToDelete.url}`);
             } catch (err) {
-                console.error(err.message)
+                console.error(err.message);
             }
         } else {
             throw new Error("Field file_id missing");

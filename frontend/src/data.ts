@@ -140,7 +140,7 @@ export function signup(credentials: Object) {
  */
 export function uploadFile(file: File) {
     let username = localStorage.getItem('username')
-    return upload('files/upload', file, { username });
+    return upload('files', file, { username });
 }
 
 /**
