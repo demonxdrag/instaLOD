@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { login, signup } from '../../data';
+import React, { useState } from 'react';
+import { login, signup } from '../../data.ts';
 import './Login.scss';
 
 const Login = () => {
@@ -8,11 +8,11 @@ const Login = () => {
 
     return (
         <>
-            <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e)} />
-            <input className="form-control" type="text" value={password} onChange={(e) => setPassword(e)} />
+            <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <input className="form-control" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
             <div className="button-container">
-                <button class="btn btn-primary" onClick={() => login({ username, password })}>Login</button>
-                <button class="btn btn-secondary" onClick={() => signup({ username, password })}>Signup</button>
+                <button className="btn btn-primary" onClick={() => login({ username, password })}>Login</button>
+                <button className="btn btn-secondary" onClick={() => signup({ username, password })}>Signup</button>
             </div>
         </>
     )
