@@ -1,0 +1,42 @@
+@import 'public/style/colors';
+
+.FileCard {
+	display: flex;
+	align-items: center;
+	margin: 10px 20px;
+	padding: 10px 20px;
+	background-color: white;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+
+	.file-icon {
+		width: 60px;
+	}
+
+	.file-data {
+		display: flex;
+		flex-direction: column;
+		justify-items: start;
+		margin: 0 20px;
+
+		.file-name {
+			font-size: medium;
+			font-weight: bold;
+			color: $dark;
+		}
+
+		.file-type {
+			color: $light;
+			text-align: left;
+		}
+
+		.file-size {
+			color: $light;
+			text-align: left;
+		}
+	}
+
+	.file-controls {
+		justify-self: end;
+	}
+}

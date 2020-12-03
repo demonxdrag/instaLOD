@@ -3,6 +3,9 @@ const querystring = require('querystring');
 // Constants
 export const api_url = 'http://localhost:4200/'; // .env
 
+// Globals
+export var global_username = '';
+
 // Helpers
 /**
  * Helper for fetching a GET HTTP request
@@ -57,7 +60,20 @@ async function post(url: String, body: Object, params: Object = {}) {
  * @param params object containing parameters to be sent, they automatically get converted to string
  */
 async function upload(url: String, file: File, params: Object = {}) {
-
+    const queryParams = params ? `?${querystring.stringify(params)}` : '';
+    const queryUrl = api_url + url + queryParams;
+    const response = await fetch(queryUrl, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'default',
+        body: file // body data type must match "Content-Type" header
+    });
+    console.log(response.status);
+    if (response.status === 200) {
+        return response.json();
+    } else {
+        console.error(response);
+    }
 }
 
 /**
@@ -65,7 +81,6 @@ async function upload(url: String, file: File, params: Object = {}) {
  * @param credentials {username, password}
  */
 export function login(credentials: Object) {
-    console.log('login')
     return get('users/login', credentials)
 }
 
@@ -74,6 +89,23 @@ export function login(credentials: Object) {
  * @param credentials {username, password}
  */
 export function signup(credentials: Object) {
-    console.log('signup')
     return post('users/signup', credentials)
+}
+
+/**
+ * Upload a file function
+ * @param file single file
+ */
+export function uploadFile(file: File) {
+    let username = localStorage.getItem('username')
+    return upload('files/upload', file, {username});
+}
+
+/**
+ * Get all the files for the current user or for a given user
+ * @param user username for the user to be sent for the query
+ */
+export function getUserFiles(user: String = '') {
+    let username = user ? user : localStorage.getItem('username')
+    return get('files', {username});
 }

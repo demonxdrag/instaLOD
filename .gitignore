@@ -1,3 +1,5 @@
 node_modules
 .env
 database.env
+.eslintcache
+data/uploads/

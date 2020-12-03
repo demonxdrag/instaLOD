@@ -1,16 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
+import FileCard from '../../components/FileCard/FileCard';
+import FileUpload from '../../components/FileUpload/FileUpload'
+import { getUserFiles } from '../../data';
 import './Home.scss';
 
 const Home = () => {
+    const [userFiles, setUserFiles] = useState([]);
+
+    useEffect(() => {
+        getUserFiles().then((files) => { console.log(files); setUserFiles([...files]) })
+    }, [])
+
     return (
         <div className="Home">
             {/* User card? */}
             {/* List of uploads */}
-            <p>There are no uploaded files in your profile yet.</p>
-            <div className="upload-container">
-                <img src="/icons/upload.svg" alt="upload" />
-                <div className="upload-title">Upload a file</div>
-            </div>
+            {userFiles.map((file, k) => (
+                <FileCard key={k} file={file} setUserFiles={setUserFiles}/>
+            ))}
+            <FileUpload setUserFiles={setUserFiles} />
         </div>
     )
 }

@@ -1,8 +1,7 @@
 .Home {
-    .upload-container {
-        cursor: pointer;
-        width: 100%;
-        border-radius: 10px;
-        border: 1px solid #CACACA;
-    }
+    width: 100vw;
+    height: 100vh;
+    background-color: lightblue;
+    max-width: 600px;
+    margin: auto;
 }
