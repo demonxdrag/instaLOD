@@ -1,3 +1,5 @@
+@import 'public/style/colors';
+
 // General reset
 * {
 	margin: 0;
@@ -16,19 +18,19 @@
 }
 
 .btn-primary {
-	background-color: lightgreen;
+	background-color: $primary;
 }
 
 .btn-secondary {
-	background-color: lightblue;
+	background-color: $secondary;
 }
 
 .btn-error {
-	background-color: lightcoral;
+	background-color: $error;
 }
 
 .btn-disabled {
-	background-color: gray;
+	background-color: $disabled;
 }
 
 input {

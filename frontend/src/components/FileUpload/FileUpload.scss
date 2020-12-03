@@ -1,12 +1,32 @@
+@import 'public/style/colors';
+
 .FileUpload {
 	background-color: white;
 	padding: 5px;
 	border-radius: 5px;
 	margin: 10px 20px;
+
 	.upload-container {
 		cursor: pointer;
 		border-radius: 3px;
 		border: 1px solid #CACACA;
 		padding: 10px 20px;
+		text-align: center;
+
+		.upload-image {
+			width: 100px;
+			fill: $primary;
+		}
+
+		.upload-title {
+			margin-bottom: 20px;
+		}
+	}
+
+	.file {
+		position: absolute;
+		left: -100%;
+		top: -100%;
+		opacity: 0;
 	}
 }

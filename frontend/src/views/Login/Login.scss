@@ -1,5 +1,7 @@
+@import 'public/style/colors';
+
 .Login {
-    background-color: lightblue;
+    background-color: $secondary;
     height: 100vh;
     width: 100vw;
     display: flex;
