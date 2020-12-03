@@ -1,0 +1,37 @@
+import React, { useState, useEffect } from 'react';
+import { uploadFile } from '../../data';
+import './FileUpload.scss';
+
+const FileUpload = () => {
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    useEffect(() => {
+        if (selectedFile) {
+            console.log(selectedFile);
+        }
+    }, [selectedFile])
+
+    const uploadHandler = async () => {
+        try {
+            let fileToUpload = new FormData();
+            fileToUpload.append(selectedFile.name, selectedFile)
+            await uploadFile(fileToUpload);
+        } catch (err) {
+            setErrorMsg(err.message);
+        }
+    }
+
+    return (
+        <div className="FileUpload">
+            <p>There are no uploaded files in your profile yet.</p>
+            <div className="upload-container">
+                <img src="/icons/upload.svg" alt="upload" />
+                <div className="upload-title">{!selectedFile ? 'Select a file to upload' : 'Upload file'}</div>
+                <input type="file" onChange={e => setSelectedFile(e.target.files[0])} />
+                <button className="btn btn-primary" onClick={() => uploadHandler()}>Upload File</button>
+            </div>
+        </div>
+    )
+}
+export default FileUpload;

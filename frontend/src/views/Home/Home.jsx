@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import FileUpload from '../../components/FileUpload/FileUpload'
 import './Home.scss';
 
 const Home = () => {
@@ -6,11 +7,7 @@ const Home = () => {
         <div className="Home">
             {/* User card? */}
             {/* List of uploads */}
-            <p>There are no uploaded files in your profile yet.</p>
-            <div className="upload-container">
-                <img src="/icons/upload.svg" alt="upload" />
-                <div className="upload-title">Upload a file</div>
-            </div>
+            <FileUpload/>
         </div>
     )
 }

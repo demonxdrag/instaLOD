@@ -1,23 +1,27 @@
-var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
-var cors = require('cors');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+const logger = require('morgan');
+const path = require('path');
+const cors = require('cors');
 
-var indexRouter = require('./routes/index.ts');
-var usersRouter = require('./routes/users.ts');
+const indexRouter = require('./routes/index.ts');
+const usersRouter = require('./routes/users.ts');
+const filesRouter = require('./routes/files.ts');
 
-var app = express();
+const app = express();
 
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(fileUpload({ parseNested: true }))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/files', filesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
