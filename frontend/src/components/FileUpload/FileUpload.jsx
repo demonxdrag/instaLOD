@@ -26,14 +26,18 @@ const FileUpload = ({ setUserFiles }) => {
             }
             let fileToUpload = new FormData();
             fileToUpload.append(selectedFile.name, selectedFile)
-            console.log({ composedFile });
             setUserFiles((userFiles) => [...userFiles, composedFile])
-            let response = await uploadFile(fileToUpload);
-            setUserFiles((userFiles) => userFiles.map((it) => {
-                if (it.name === response.name) { it.downloadable = true }
-                if (!it.zip && response.zip) { it.zip = true }
-                return it;
-            }));
+            uploadFile(fileToUpload).then((response) => {
+                console.log({response})
+                setUserFiles((userFiles) => [...userFiles.map((it) => {
+                    if (it.name === response.name) {
+                        return { ...response, downloadable: true };
+                    }
+                    return it;
+                })]);
+            }).catch((err) => {
+                throw new Error(err.message);
+            })
             setSelectedFile(null);
         } catch (err) {
             setErrorMsg(err.message);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FileCard from '../../components/FileCard/FileCard';
 import FileUpload from '../../components/FileUpload/FileUpload'
-import { getUserFiles } from '../../data';
+import { getUserFiles, logout } from '../../data';
 import './Home.scss';
 
 /**
@@ -23,6 +23,7 @@ const Home = () => {
         <div className="Home">
             <div className="home-container">
                 <h1>Hello {username}!</h1>
+                <button className="btn primary logout" onClick={() => logout()} >Log Out</button>
                 {/* User card? */}
                 {/* List of uploads */}
                 {userFiles.map((file, k) => (

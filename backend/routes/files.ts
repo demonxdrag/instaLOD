@@ -39,7 +39,7 @@ router.post('/', async function (req, res) {
             resolve(file.mv(`${upload_dir}${url}`, (err) => { console.error(err); reject(err) }));
         })
         let query = await db.query('INSERT INTO files(url, name, owner, filetype, size, created_on) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [url, name, owner, filetype, size, created_on]);
-        res.status(200).json(query.rows);
+        res.status(200).json(query.rows[0]);
     } catch (err) {
         console.error(err.message);
         return res.status(400).send(err.message);
@@ -56,7 +56,7 @@ router.put('/', async function (req, res) {
             let { name, filetype, size } = req.body;
             let last_edit = new Date();
             let query = await db.query('UPDATE files SET name = $2, filetype = $3 , size = $4, last_edit = $5 WHERE file_id = $1', [file_id, name, filetype, size, last_edit]);
-            res.status(200).json(query.rows);
+            res.status(200).json(query.rows[0]);
         } else {
             throw new Error("Field file_id missing");
         }
@@ -76,7 +76,7 @@ router.delete('/', async function (req, res) {
             let queryGet = await db.query('SELECT url FROM files WHERE file_id = $1', [file_id]);
             let fileToDelete = queryGet.rows[0];
             let queryDelete = await db.query('DELETE FROM files WHERE file_id = $1', [file_id]);
-            res.status(200).json(queryDelete.rows);
+            res.status(200).json(queryDelete.rows[0]);
             // This section goes last so we can still delete even if there is a failure
             try {
                 console.log({fileToDelete});
@@ -95,5 +95,19 @@ router.delete('/', async function (req, res) {
         return res.status(400).send(err.message);
     }
 })
+
+/**
+ * @description Gets the status for a given file
+ */
+router.get('/zipstatus', async function (req, res) {
+    let { file_id } = req.query;
+    try {
+        let query = await db.query('SELECT zip FROM files WHERE file_id = $1', [file_id]);
+        res.status(200).json(query.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(400).send(err.message);
+    }
+});
 
 module.exports = router;

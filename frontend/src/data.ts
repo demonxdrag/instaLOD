@@ -77,19 +77,19 @@ async function put(url: String, body: Object, params: Object = {}) {
 * @param params object containing parameters to be sent, they automatically get converted to string
 */
 async function del(url: String, params: Object = {}) {
-   const queryParams = params ? `?${querystring.stringify(params)}` : '';
-   const queryUrl = api_url + url + queryParams;
-   const response = await fetch(queryUrl, {
-       method: 'DELETE',
-       mode: 'cors',
-       cache: 'default',
-       headers: { 'Content-Type': 'application/json' }
-   });
-   if (response.status === 200) {
-       return response.json();
-   } else {
-       console.error(response);
-   }
+    const queryParams = params ? `?${querystring.stringify(params)}` : '';
+    const queryUrl = api_url + url + queryParams;
+    const response = await fetch(queryUrl, {
+        method: 'DELETE',
+        mode: 'cors',
+        cache: 'default',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    if (response.status === 200) {
+        return response.json();
+    } else {
+        console.error(response);
+    }
 }
 
 /**
@@ -132,6 +132,14 @@ export function signup(credentials: Object) {
     return post('users/signup', credentials)
 }
 
+/**
+ * Logout function
+ */
+export function logout(){
+    localStorage.clear();
+    window.location.href = '/login';
+}
+
 // FILE FUNCTIONS //
 
 /**
@@ -158,7 +166,7 @@ export function getUserFiles(user: String = '') {
  * @param file_id File ID
  */
 export function updateFile(metadata: Object, file_id: Number) {
-    return put('files', metadata, {file_id});
+    return put('files', metadata, { file_id });
 }
 
 /**
@@ -166,5 +174,14 @@ export function updateFile(metadata: Object, file_id: Number) {
  * @param file_id File ID
  */
 export function deleteFile(file_id: Number) {
-    return del('files', {file_id});
+    return del('files', { file_id });
+}
+
+/**
+ * Function that gets the zip status of a file
+ * @param file_id File ID
+ * @returns {Boolean} Promise
+ */
+export function getZIPStatus(file_id: Number) {
+    return get('files/zipstatus', { file_id });
 }
