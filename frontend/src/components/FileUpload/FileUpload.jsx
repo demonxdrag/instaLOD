@@ -16,10 +16,24 @@ const FileUpload = ({ setUserFiles }) => {
      */
     const uploadHandler = async () => {
         try {
+            let composableName = selectedFile.name.split('.')
+            let composedFile = {
+                filetype: composableName.pop(),
+                name: composableName.join('.'),
+                size: selectedFile.size,
+                downloadable: false,
+                zip: false,
+            }
             let fileToUpload = new FormData();
             fileToUpload.append(selectedFile.name, selectedFile)
+            console.log({ composedFile });
+            setUserFiles((userFiles) => [...userFiles, composedFile])
             let response = await uploadFile(fileToUpload);
-            setUserFiles((userFiles) => [...userFiles, response[0]])
+            setUserFiles((userFiles) => userFiles.map((it) => {
+                if (it.name === response.name) { it.downloadable = true }
+                if (!it.zip && response.zip) { it.zip = true }
+                return it;
+            }));
             setSelectedFile(null);
         } catch (err) {
             setErrorMsg(err.message);

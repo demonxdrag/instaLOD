@@ -1,1 +1,1 @@
-*/1 * * * * /usr/bin/curl -X GET --silent http://backend:4200/compressor
+*/1 * * * * /usr/bin/curl -X GET http://localhost:4200/compressor

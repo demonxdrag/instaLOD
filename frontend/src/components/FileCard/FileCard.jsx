@@ -16,14 +16,21 @@ const FileCard = ({ file, setUserFiles }) => {
     const [fileType, setFileType] = useState('');
     const [fileSize, setFileSize] = useState('');
 
+    const [downloadMode, setDownloadMode] = useState(false);
+    const [downloadZIPMode, setDownloadZIPMode] = useState(false);
+
     useEffect(() => {
         setFileName(file.name);
         setFileType(file.filetype);
         setFileSize(file.size);
+        setDownloadMode(true)
+        setDownloadZIPMode(file.zip)
         return () => {
             setFileName('');
             setFileType('');
             setFileSize('');
+            setDownloadMode(false)
+            setDownloadZIPMode(false)
         }
     }, [file])
 
@@ -80,8 +87,8 @@ const FileCard = ({ file, setUserFiles }) => {
             <div className="file-controls">
                 <div className="file-save" onClick={() => editHandler()}>{editMode ? 'Save' : 'Edit'}</div>
                 <div className="file-delete" onClick={() => setDeleteMode(true)}>Delete</div>
-                <div className="file-download"><a href={`${api_url}uploads/${file.url}`} target="_blank" rel="noreferrer" download={`${file.name}`}>Download</a></div>
-                <div className="file-download-compressed"><a href={`${api_url}uploads/${file.url}.zip`} target="_blank" rel="noreferrer" download={`${file.name}`}>ZIP</a></div>
+                <div className={`file-download ${!downloadMode && 'disabled'}`}><a href={`${api_url}uploads/${file.url}`} target="_blank" rel="noreferrer" download={`${file.name}`}>Download</a></div>
+                <div className={`file-download-compressed ${!downloadZIPMode && 'disabled'}`}><a href={`${api_url}uploads/${file.url}.zip`} target="_blank" rel="noreferrer" download={`${file.name}`}>ZIP</a></div>
             </div>
             {deleteMode && <div className="delete-prompt">
                 <p>Are you sure you want to delete this file?</p>

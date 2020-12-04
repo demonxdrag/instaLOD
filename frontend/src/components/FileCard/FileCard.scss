@@ -22,7 +22,7 @@
 		margin: 0 20px;
 		width: 100%;
 
-		div > input {
+		div>input {
 			width: 100%;
 		}
 
@@ -56,9 +56,26 @@
 			animation-duration: 1s;
 			background-color: transparent;
 			cursor: pointer;
+			color: $dark;
 
 			&:hover {
 				background-color: $light;
+			}
+
+			&.disabled {
+				&:hover {
+					background-color: inherit;
+				}
+
+				a {
+					color: $light;
+					pointer-events: none;
+				}
+			}
+
+			a {
+				color: $dark;
+				text-decoration: none;
 			}
 		}
 
