@@ -73,7 +73,7 @@ router.delete('/', async function (req, res) {
     try {
         let { file_id } = req.query;
         if (file_id) {
-            let queryGet = await db.query('SELECT url FROM files WHERE file_id = $1', [file_id]);
+            let queryGet = await db.query('SELECT url, zip FROM files WHERE file_id = $1', [file_id]);
             let fileToDelete = queryGet.rows[0];
             let queryDelete = await db.query('DELETE FROM files WHERE file_id = $1', [file_id]);
             res.status(200).json(queryDelete.rows[0]);

@@ -10,6 +10,7 @@ import './Login.scss';
 const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMsg, setErrorMsg] = useState(null);
 
     /**
      * Function that checks login
@@ -26,7 +27,8 @@ const Login = (props) => {
                 throw new Error('Username or password not found');
             }
         } catch (err) {
-            console.error(err)
+            console.error(err);
+            setErrorMsg(err.message);
         }
     }
 
@@ -45,7 +47,8 @@ const Login = (props) => {
                 throw new Error('Username or password not found');
             }
         } catch (err) {
-            console.error(err)
+            console.error(err);
+            setErrorMsg(err.message);
         }
     }
 
@@ -58,6 +61,7 @@ const Login = (props) => {
                 <div className="button-container">
                     <button className="btn btn-primary" onClick={() => loginHandler({ username, password })}>Login</button>
                     <button className="btn btn-secondary" onClick={() => signupHandler({ username, password })}>Signup</button>
+                    <div className="error-message">{errorMsg}</div>
                 </div>
             </div>
         </div>
