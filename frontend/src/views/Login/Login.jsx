@@ -3,10 +3,18 @@ import { login, signup } from '../../data.ts';
 import { withRouter } from 'react-router-dom';
 import './Login.scss';
 
+/**
+ * Component that interacts with an existing file
+ * @param {Object} props inherited for routing purposes
+ */
 const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    /**
+     * Function that checks login
+     * @param {Object} credentials { username, password } 
+     */
     const loginHandler = async ({ username, password }) => {
         try {
             let success = await login({ username, password });
@@ -22,6 +30,10 @@ const Login = (props) => {
         }
     }
 
+    /**
+     * Function that signups a user
+     * @param {Object} credentials { username, password } 
+     */
     const signupHandler = async ({ username, password }) => {
         try {
             let success = await signup({ username, password });

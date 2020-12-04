@@ -4,6 +4,9 @@ import FileUpload from '../../components/FileUpload/FileUpload'
 import { getUserFiles } from '../../data';
 import './Home.scss';
 
+/**
+ * Main component that includes everything related to file management
+ */
 const Home = () => {
     const [userFiles, setUserFiles] = useState([]);
     const username = localStorage.getItem('username')

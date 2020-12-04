@@ -2,10 +2,18 @@ import React, { useState } from 'react';
 import { uploadFile } from '../../data';
 import './FileUpload.scss';
 
-const FileUpload = ({ key, setUserFiles }) => {
+/**
+ * Component that uploads a file
+ * @param {Object} props
+ * @property {Function} setUserFiles Function to update the total list of files
+ */
+const FileUpload = ({ setUserFiles }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
+    /**
+     * Function that uploads the file 
+     */
     const uploadHandler = async () => {
         try {
             let fileToUpload = new FormData();

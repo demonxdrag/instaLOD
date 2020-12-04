@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { api_url, deleteFile, updateFile } from '../../data';
 import './FileCard.scss';
 
+/**
+ * Component that interacts with an existing file
+ * @param {Object} props
+ * @property {Object} file File metadata
+ * @property {Function} setUserFiles Function to update the total list of files
+ */
 const FileCard = ({ file, setUserFiles }) => {
     const [editMode, setEditMode] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
@@ -21,11 +27,18 @@ const FileCard = ({ file, setUserFiles }) => {
         }
     }, [file])
 
+    /**
+     * Function that translate bytes into human readable strings
+     * @param {Number} size size in bytes
+     */
     const humanFileSize = (size) => {
         var i = Math.floor(Math.log(size) / Math.log(1024));
         return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
     };
 
+    /**
+     * Function that enables/disables editMode, if enabled, it updates the file
+     */
     const editHandler = async () => {
         try {
             if (editMode) {
@@ -41,6 +54,9 @@ const FileCard = ({ file, setUserFiles }) => {
         }
     }
 
+    /**
+     * Function that deletes the file
+     */
     const deleteHandler = async () => {
         try {
             await deleteFile(file.file_id);

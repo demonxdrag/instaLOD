@@ -33,5 +33,12 @@ services:
       - ./backend/bin/database/database.env
     ports: 
       - 5432:5432
+    container_name: database
     volumes:
       - ./backend/bin/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+  compressor:
+    build:
+      context: ./backend/data/compressor
+    depends_on:
+      - backend
+    container_name: compressor

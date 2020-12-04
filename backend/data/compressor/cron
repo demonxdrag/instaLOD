@@ -1,0 +1,1 @@
+*/1 * * * * /usr/bin/curl -X GET --silent http://backend:4200/compressor
