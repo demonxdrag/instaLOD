@@ -54,10 +54,13 @@ const Login = (props) => {
 
     return (
         <div className="Login">
+            <div className="logo-container"><img src="/icons/logo.svg" alt="instaShare" /></div>
             <div className="login-container">
-                <h2>Login/Signup</h2>
-                <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input className="form-control" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <div className="login-title">LogIn / SignUp</div>
+                <label htmlFor="username">username</label>
+                <input className="form-control" id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <label htmlFor="password">password</label>
+                <input className="form-control" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <div className="button-container">
                     <button className="btn btn-primary" onClick={() => loginHandler({ username, password })}>Login</button>
                     <button className="btn btn-secondary" onClick={() => signupHandler({ username, password })}>Signup</button>
