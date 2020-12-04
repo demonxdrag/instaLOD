@@ -36,9 +36,10 @@ const FileCard = ({ file, setUserFiles }) => {
     }, [file])
 
     useEffect(() => {
+        let interval;
         if (!file.zip && file.file_id) {
             try {
-                setInterval(async () => {
+                interval = setInterval(async () => {
                     getZIPStatus(file.file_id).then((response) => {
                         if (response.zip === true) {
                             setUserFiles((userFiles) => userFiles.map((it) => {
@@ -55,6 +56,9 @@ const FileCard = ({ file, setUserFiles }) => {
             } catch (e) {
                 console.log(e);
             }
+        }
+        return () => {
+            clearInterval(interval);
         }
     }, [file.zip, file.file_id, setUserFiles])
 
@@ -109,17 +113,40 @@ const FileCard = ({ file, setUserFiles }) => {
                 <div className="file-size">Size: <input type="text" onChange={(e) => setFileSize(e.target.value)} value={editMode ? fileSize : humanFileSize(fileSize)} disabled={!editMode} /></div>
             </div>
             <div className="file-controls">
-                <div className="file-save" onClick={() => editHandler()}>{editMode ? 'Save' : 'Edit'}</div>
-                <div className="file-delete" onClick={() => setDeleteMode(true)}>Delete</div>
-                {downloadMode ?
-                    <div className={`file-download`}><a href={`${api_url}uploads/${file.url}`} target="_blank" rel="noreferrer" download={`${file.name}`}>Download</a></div>
+                {editMode ?
+                    <div className="file-save" onClick={() => editHandler()}>
+                        <span>Save</span>
+                        <img src="/icons/check.svg" alt="check" className="icon" />
+                    </div>
                     :
-                    <div className={`file-loader`}><img src="/gif/loader.gif" alt="Loading..." /></div>
+                    <div className="file-save" onClick={() => editHandler()}>
+                        <span>Edit</span>
+                        <img src="/icons/edit.svg" alt="edit" className="icon" />
+                    </div>
+                }
+                <div className="file-delete" onClick={() => setDeleteMode(true)}>
+                    <span>Delete</span>
+                    <img src="/icons/delete.svg" alt="delete" className="icon" />
+                </div>
+                {downloadMode ?
+                    <div className={`file-download`}><a href={`${api_url}uploads/${file.url}`} target="_blank" rel="noreferrer" download={`${file.name}`}>
+                        <span>Download</span>
+                        <img src="/icons/download.svg" alt="download" className="icon" /></a></div>
+                    :
+                    <div className={`file-loader disabled`}>
+                        <span>Download</span>
+                        <img src="/gif/loader.gif" alt="Loading..." className="icon" />
+                    </div>
                 }
                 {downloadZIPMode ?
-                    <div className={`file-download-compressed`}><a href={`${api_url}uploads/${file.url}.zip`} target="_blank" rel="noreferrer" download={`${file.name}`}>ZIP</a></div>
+                    <div className={`file-download-compressed`}><a href={`${api_url}uploads/${file.url}.zip`} target="_blank" rel="noreferrer" download={`${file.name}`}>
+                        <span>ZIP</span>
+                        <img src="/icons/zip.svg" alt="zip" className="icon" /></a></div>
                     :
-                    <div className={`file-loader`}><img src="/gif/loader.gif" alt="Loading..." /></div>
+                    <div className={`file-loader disabled`}>
+                        <span>ZIP</span>
+                        <img src="/gif/loader.gif" alt="Loading..." className="icon" />
+                    </div>
                 }
             </div>
             {deleteMode && <div className="delete-prompt">

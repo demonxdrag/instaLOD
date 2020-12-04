@@ -1,1 +1,1 @@
-*/1 * * * * root /usr/bin/curl -X GET http://localhost:4200/compressor > /dev/stdout
+*/1 * * * * root /usr/bin/curl -X GET http://localhost:4200/compressor > /proc/$(cat /var/run/crond.pid)/fd/1 2>&1

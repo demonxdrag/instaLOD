@@ -1,11 +1,10 @@
-FROM ubuntu:latest
+FROM ubuntu
 
-RUN apt-get update && apt-get -y install cron curl
+RUN apt-get update && apt-get install cron curl -y -qq
 
-COPY cron /etc/cron.d/instashare
+RUN mkdir /script
+RUN echo 'echo "Engaging compressor"' > /script/call.sh && chmod +x /script/call.sh
+RUN echo 'curl http://backend:4200/compressor' > /script/compressor.sh && chmod +x /script/compressor.sh
+RUN echo "*/1 * * * * root /script/compressor.sh > /proc/1/fd/1 2>/proc/1/fd/2" >> /etc/crontab
 
-RUN chmod 0644 /etc/cron.d/instashare
-
-RUN crontab /etc/cron.d/instashare
-
-CMD ["crond", "-f"]
+CMD ["cron", "-f"]

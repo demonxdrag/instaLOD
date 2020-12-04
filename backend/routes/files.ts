@@ -56,7 +56,7 @@ router.put('/', async function (req, res) {
             let { name, filetype, size } = req.body;
             let last_edit = new Date();
             let query = await db.query('UPDATE files SET name = $2, filetype = $3 , size = $4, last_edit = $5 WHERE file_id = $1', [file_id, name, filetype, size, last_edit]);
-            res.status(200).json(query.rows[0]);
+            res.status(200).json(query.rows);
         } else {
             throw new Error("Field file_id missing");
         }
@@ -76,10 +76,9 @@ router.delete('/', async function (req, res) {
             let queryGet = await db.query('SELECT url, zip FROM files WHERE file_id = $1', [file_id]);
             let fileToDelete = queryGet.rows[0];
             let queryDelete = await db.query('DELETE FROM files WHERE file_id = $1', [file_id]);
-            res.status(200).json(queryDelete.rows[0]);
+            res.status(200).json(queryDelete.rows);
             // This section goes last so we can still delete even if there is a failure
             try {
-                console.log({fileToDelete});
                 fs.unlinkSync(`${upload_dir}${fileToDelete.url}`);
                 if (fileToDelete.zip) {
                     fs.unlinkSync(`${upload_dir}${fileToDelete.url}.zip`);
