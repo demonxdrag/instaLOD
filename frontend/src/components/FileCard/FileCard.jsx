@@ -36,9 +36,10 @@ const FileCard = ({ file, setUserFiles }) => {
     }, [file])
 
     useEffect(() => {
+        let interval;
         if (!file.zip && file.file_id) {
             try {
-                setInterval(async () => {
+                interval = setInterval(async () => {
                     getZIPStatus(file.file_id).then((response) => {
                         if (response.zip === true) {
                             setUserFiles((userFiles) => userFiles.map((it) => {
@@ -55,6 +56,9 @@ const FileCard = ({ file, setUserFiles }) => {
             } catch (e) {
                 console.log(e);
             }
+        }
+        return () => {
+            clearInterval(interval);
         }
     }, [file.zip, file.file_id, setUserFiles])
 
