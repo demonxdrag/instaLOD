@@ -1,7 +1,9 @@
+@import 'public/style/colors';
+
 .Home {
 	width: 100vw;
 	height: 100vh;
-	background-color: lightblue;
+	background-color: $secondary;
 	margin: 0;
 
 	.home-container {
@@ -9,5 +11,11 @@
 		height: 100vh;
 		margin: auto;
 		overflow: auto;
+
+		h1 {
+			text-align: center;
+			margin: 30px;
+			color: white;
+		}
 	}
 }

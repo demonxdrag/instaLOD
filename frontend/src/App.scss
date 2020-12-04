@@ -1,3 +1,6 @@
+@import 'public/style/colors';
+@import 'public/style/fonts';
+
 // General reset
 * {
 	margin: 0;
@@ -9,26 +12,33 @@
 	padding: 10px 20px;
 	border-radius: 5px;
 	border: none;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 	color: white;
 	font-weight: bold;
 	margin: 2.5px;
+	animation-duration: 1s;
+	box-shadow: none;
+	cursor: pointer;
+	
+	&:hover {
+		transition: box-shadow 0.3s ease-in-out;
+		box-shadow: $shadow;
+	}
 }
 
 .btn-primary {
-	background-color: lightgreen;
+	background-color: $primary;
 }
 
 .btn-secondary {
-	background-color: lightblue;
+	background-color: $secondary;
 }
 
 .btn-error {
-	background-color: lightcoral;
+	background-color: $error;
 }
 
 .btn-disabled {
-	background-color: gray;
+	background-color: $disabled;
 }
 
 input {
@@ -41,7 +51,7 @@ input {
 	font-size: inherit;
 	font-weight: inherit;
 	color: inherit;
-	
+
 	&:disabled {
 		margin: 0;
 		padding: 0;

@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { deleteFile, updateFile, uploadFile } from '../../data';
+import { api_url, deleteFile, getZIPStatus, updateFile } from '../../data';
 import './FileCard.scss';
 
+/**
+ * Component that interacts with an existing file
+ * @param {Object} props
+ * @property {Object} file File metadata
+ * @property {Function} setUserFiles Function to update the total list of files
+ */
 const FileCard = ({ file, setUserFiles }) => {
     const [editMode, setEditMode] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
@@ -10,17 +16,60 @@ const FileCard = ({ file, setUserFiles }) => {
     const [fileType, setFileType] = useState('');
     const [fileSize, setFileSize] = useState('');
 
+    const [downloadMode, setDownloadMode] = useState(false);
+    const [downloadZIPMode, setDownloadZIPMode] = useState(false);
+
     useEffect(() => {
         setFileName(file.name);
         setFileType(file.filetype);
         setFileSize(file.size);
-    }, [])
+        console.log(file);
+        setDownloadMode(file.downloadable === undefined || file.downloadable === true);
+        setDownloadZIPMode(file.zip);
+        return () => {
+            setFileName('');
+            setFileType('');
+            setFileSize('');
+            setDownloadMode(false)
+            setDownloadZIPMode(false)
+        }
+    }, [file])
 
+    useEffect(() => {
+        if (!file.zip && file.file_id) {
+            try {
+                setInterval(async () => {
+                    getZIPStatus(file.file_id).then((response) => {
+                        if (response.zip === true) {
+                            setUserFiles((userFiles) => userFiles.map((it) => {
+                                if (it.file_id === file.file_id) {
+                                    return { ...it, zip: response.zip };
+                                }
+                                return it;
+                            }));
+                        }
+                    }).catch((err) => {
+                        throw new Error(err.message);
+                    })
+                }, 30000);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }, [file.zip, file.file_id, setUserFiles])
+
+    /**
+     * Function that translate bytes into human readable strings
+     * @param {Number} size size in bytes
+     */
     const humanFileSize = (size) => {
         var i = Math.floor(Math.log(size) / Math.log(1024));
         return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
     };
 
+    /**
+     * Function that enables/disables editMode, if enabled, it updates the file
+     */
     const editHandler = async () => {
         try {
             if (editMode) {
@@ -36,6 +85,9 @@ const FileCard = ({ file, setUserFiles }) => {
         }
     }
 
+    /**
+     * Function that deletes the file
+     */
     const deleteHandler = async () => {
         try {
             await deleteFile(file.file_id);
@@ -59,8 +111,16 @@ const FileCard = ({ file, setUserFiles }) => {
             <div className="file-controls">
                 <div className="file-save" onClick={() => editHandler()}>{editMode ? 'Save' : 'Edit'}</div>
                 <div className="file-delete" onClick={() => setDeleteMode(true)}>Delete</div>
-                <div className="file-download">Download</div>
-                <div className="file-download-compressed">ZIP</div>
+                {downloadMode ?
+                    <div className={`file-download`}><a href={`${api_url}uploads/${file.url}`} target="_blank" rel="noreferrer" download={`${file.name}`}>Download</a></div>
+                    :
+                    <div className={`file-loader`}><img src="/gif/loader.gif" alt="Loading..." /></div>
+                }
+                {downloadZIPMode ?
+                    <div className={`file-download-compressed`}><a href={`${api_url}uploads/${file.url}.zip`} target="_blank" rel="noreferrer" download={`${file.name}`}>ZIP</a></div>
+                    :
+                    <div className={`file-loader`}><img src="/gif/loader.gif" alt="Loading..." /></div>
+                }
             </div>
             {deleteMode && <div className="delete-prompt">
                 <p>Are you sure you want to delete this file?</p>

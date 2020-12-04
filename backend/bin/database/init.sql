@@ -13,6 +13,7 @@ CREATE TABLE files (
     size BIGINT NOT NULL,
     created_on TIMESTAMP NOT NULL,
     last_edit TIMESTAMP,
+    zip BOOLEAN DEFAULT false,
     PRIMARY KEY (file_id),
     FOREIGN KEY (owner) REFERENCES users(username)
 );
