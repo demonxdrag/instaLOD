@@ -21,11 +21,12 @@ const Home = () => {
 
     return (
         <div className="Home">
+            <div className="logo-container"><img src="/icons/logo.svg" alt="instaShare" /></div>
+            <div className="user-container">
+                <div className="username">{username}</div>
+                <div className="logout"><button className="btn btn-secondary logout" onClick={() => logout()} >LogOut</button></div>
+            </div>
             <div className="home-container">
-                <h1>Hello {username}!</h1>
-                <button className="btn primary logout" onClick={() => logout()} >Log Out</button>
-                {/* User card? */}
-                {/* List of uploads */}
                 {userFiles.map((file, k) => (
                     <FileCard key={k} file={file} setUserFiles={setUserFiles} />
                 ))}

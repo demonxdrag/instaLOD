@@ -8,7 +8,6 @@ const cors = require('cors');
 
 const compressor = require('./data/compressor');
 
-const indexRouter = require('./routes/index.ts');
 const usersRouter = require('./routes/users.ts');
 const filesRouter = require('./routes/files.ts');
 
@@ -21,7 +20,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(fileUpload({ parseNested: true }))
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/files', filesRouter);
 

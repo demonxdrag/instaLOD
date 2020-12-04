@@ -7,7 +7,7 @@
 	margin: 10px 20px;
 	padding: 10px 20px;
 	background-color: white;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+	box-shadow: $shadow;
 	border-radius: 5px;
 
 	.file-icon {
@@ -51,12 +51,19 @@
 		margin-left: auto;
 
 		div {
+			min-width: 80px;
 			padding: 5px 10px;
 			font-size: small;
 			animation-duration: 1s;
 			background-color: transparent;
 			cursor: pointer;
 			color: $dark;
+			text-align: right;
+
+			.icon {
+				width: 14px;
+				margin-left: 5px;
+			}
 
 			&:hover {
 				background-color: $light;
@@ -67,7 +74,7 @@
 					background-color: inherit;
 				}
 
-				a {
+				span {
 					color: $light;
 					pointer-events: none;
 				}
@@ -76,28 +83,6 @@
 			a {
 				color: $dark;
 				text-decoration: none;
-			}
-		}
-
-		.file-save {
-			border-bottom: 1px solid $light;
-		}
-
-		.file-delete {
-			border-bottom: 1px solid $light;
-		}
-
-		.file-download {
-			border-bottom: 1px solid $light;
-		}
-
-		.file-download-compressed {}
-
-		.file-loader {
-			text-align: center;
-
-			img {
-				height: 15px;
 			}
 		}
 	}
